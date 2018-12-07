@@ -21,6 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('category','CategoryController');
 Route::resource('organization','OrganizationController');
+Route::resource('person','PersonController');
 
 Route::get('profile', function(){
     return view('profile');

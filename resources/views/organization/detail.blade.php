@@ -20,9 +20,4 @@
 		<td>:</td>
 		<td id="org_website_text"></td>
 	</tr>
-	<tr>
-		<td>logo</td>
-		<td>:</td>
-		<td id="org_logo_text"></td>
-	</tr>
 </table>

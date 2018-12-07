@@ -6,12 +6,36 @@
 	<div class="">
 		<div class="box">
 			<div class="box-header">
-				<h3 class="box-title">All Organization</h3>
+				<h3 class="box-title">Contact Person List</h3>
 			</div>
 
 			<div class="box-body">
 
-			<form action="/search" method="get">
+			<table class="detail">
+				<tr>
+					<td rowspan="5"><img height="200px" src="{{ url('/') }}/images/logos/{{$organizations[0]->logo}}"></td>
+					<td>Organization Name</td>
+					<td>:</td>
+					<td>{{$organizations[0]->name}}</td>
+				</tr>
+				<tr>
+					<td>Phone</td>
+					<td>:</td>
+					<td>{{$organizations[0]->phone}}</td>
+				</tr>
+				<tr>
+					<td>e-Mail</td>
+					<td>:</td>
+					<td>{{$organizations[0]->email}}</td>
+				</tr>
+				<tr>
+					<td>Website</td>
+					<td>:</td>
+					<td>{{$organizations[0]->website}}</td>
+				</tr>
+			</table>
+
+			<!-- <form action="/person" method="get">
 					<div class="row">
 						<div class="col-md-8">
 						</div>
@@ -22,7 +46,7 @@
 							<button type="submit" class="btn btn-primary">search</button>
 						</div>
 					</div>
-      </form>
+      </form> -->
 				<table class="table table-responsive">
 					<thead>
 						<tr>
@@ -36,17 +60,15 @@
 
 					<tbody>
 
-						@foreach($organizations as $org)
+						@foreach($people as $ppl)
 							<tr>
-								<td>{{$org->name}}</td>
-								<td>{{$org->phone}}</td>
-								<td>{{$org->email}}</td>
-								<td>{{$org->website}}</td>
+								<td>{{$ppl->name}}</td>
+								<td>{{$ppl->phone}}</td>
+								<td>{{$ppl->email}}</td>
 								<td>
-									<button class="btn btn-primary" data-org_name="{{$org->name}}" data-org_phone="{{$org->phone}}" data-org_email="{{$org->email}}" data-org_website="{{$org->website}}" data-org_logo="{{$org->logo}}" data-org_id="{{$org->id}}" data-toggle="modal" data-target="#edit">Edit</button>
-									<button class="btn btn-danger" data-org_id="{{$org->id}}" data-toggle="modal" data-target="#delete">Delete</button>
-									<!-- <button class="btn btn-primary" data-org_name="{{$org->name}}" data-org_phone="{{$org->phone}}" data-org_email="{{$org->email}}" data-org_website="{{$org->website}}" data-org_logo="{{$org->logo}}" data-org_id="{{$org->id}}" data-toggle="modal" data-target="#detail">Detail</button> -->
-									<a href="{{url('/')}}/person?organization={{$org->id}}" class="btn btn-success">Detail</a>
+									<button class="btn btn-info" data-ppl_name="{{$ppl->name}}" data-ppl_phone="{{$ppl->phone}}" data-ppl_email="{{$ppl->email}}" data-ppl_avatar="{{$ppl->avatar}}" data-ppl_id="{{$ppl->id}}" data-toggle="modal" data-target="#edit">Edit</button>
+									<button class="btn btn-danger" data-ppl_id="{{$ppl->id}}" data-toggle="modal" data-target="#delete">Delete</button>
+									<button class="btn btn-primary" data-ppl_name="{{$ppl->name}}" data-ppl_phone="{{$ppl->phone}}" data-ppl_email="{{$ppl->email}}" data-ppl_avatar="{{$ppl->avatar}}" data-ppl_id="{{$ppl->id}}" data-toggle="modal" data-target="#detail">Detail</button>
 								</td>
 							</tr>
 
@@ -55,7 +77,7 @@
 
 
 				</table>	
-				{{ $organizations->links() }}			
+				{{ $people->links() }}			
 			</div>
 		</div>
 	</div>
@@ -73,12 +95,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">New Organization</h4>
+        <h4 class="modal-title" id="myModalLabel">New Contact Person</h4>
       </div>
-      <form action="{{route('organization.store')}}" method="post" enctype="multipart/form-data">
+      <form action="{{route('person.store')}}" method="post" enctype="multipart/form-data">
       		{{csrf_field()}}
 	      <div class="modal-body">
-				@include('organization.form')
+				<input type="hidden" class="form-control" name="organization_id" id="organization_id" value="{{$organizations[0]->id}}" required>
+				@include('person.form')
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -95,14 +118,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Edit Organization</h4>
+        <h4 class="modal-title" id="myModalLabel">Edit Contact Person</h4>
       </div>
-      <form action="{{route('organization.update','test')}}" method="post">
+      <form action="{{route('person.update','test')}}" method="post">
       		{{method_field('patch')}}
       		{{csrf_field()}}
 	      <div class="modal-body">
-	      		<input type="hidden" name="organization_id" id="org_id" value="">
-				@include('organization.form')
+	      		<input type="hidden" name="person_id" id="person_id" value="">
+				@include('person.form')
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -121,14 +144,14 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title text-center" id="myModalLabel">Delete Confirmation</h4>
       </div>
-      <form action="{{route('organization.destroy','test')}}" method="post">
+      <form action="{{route('person.destroy','test')}}" method="post">
       		{{method_field('delete')}}
       		{{csrf_field()}}
 	      <div class="modal-body">
 				<p class="text-center">
 					Are you sure you want to delete this?
 				</p>
-	      		<input type="hidden" name="organization_id" id="org_id" value="">
+	      		<input type="hidden" name="person_id" id="person_id" value="">
 
 	      </div>
 	      <div class="modal-footer">
@@ -146,12 +169,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title text-center" id="myModalLabel">Organization Detail</h4>
+        <h4 class="modal-title text-center" id="myModalLabel">Contact Person Detail</h4>
       </div>
       		{{csrf_field()}}
 	      <div class="modal-body">
 				
-				@include('organization.detail')
+				@include('person.detail')
 
 	      </div>
 	      <div class="modal-footer">

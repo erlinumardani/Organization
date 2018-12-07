@@ -148,6 +148,11 @@
       var org_email = button.data('org_email') 
       var org_website = button.data('org_website') 
       var org_logo = button.data('org_logo') 
+      var ppl_id = button.data('ppl_id') 
+      var ppl_name = button.data('ppl_name') 
+      var ppl_phone = button.data('ppl_phone') 
+      var ppl_email = button.data('ppl_email') 
+      var ppl_avatar = button.data('ppl_avatar') 
 
       modal.find('.modal-body #title').val(title);
       modal.find('.modal-body #des').val(description);
@@ -157,7 +162,12 @@
       modal.find('.modal-body #org_phone').val(org_phone);
       modal.find('.modal-body #org_email').val(org_email);
       modal.find('.modal-body #org_website').val(org_website);
-      modal.find('.modal-body #org_logo').val(org_logo);
+      //modal.find('.modal-body #org_logo').val(org_logo);
+      modal.find('.modal-body #ppl_id').val(ppl_id);
+      modal.find('.modal-body #ppl_name').val(ppl_name);
+      modal.find('.modal-body #ppl_phone').val(ppl_phone);
+      modal.find('.modal-body #ppl_email').val(ppl_email);
+      //modal.find('.modal-body #ppl_avatar').val(ppl_avatar);
 })
 
 
@@ -167,7 +177,7 @@
 
       var cat_id = button.data('catid') 
       var org_id = button.data('org_id') 
-      var person_id = button.data('person_id') 
+      var person_id = button.data('ppl_id') 
       var modal = $(this)
 
       modal.find('.modal-body #cat_id').val(cat_id);
@@ -185,6 +195,11 @@
       var org_email = button.data('org_email') 
       var org_website = button.data('org_website') 
       var org_logo = button.data('org_logo') 
+      var ppl_id = button.data('ppl_id') 
+      var ppl_name = button.data('ppl_name') 
+      var ppl_phone = button.data('ppl_phone') 
+      var ppl_email = button.data('ppl_email') 
+      var ppl_avatar = button.data('ppl_avatar') 
 
       modal.find('.modal-body #org_id_text').text(org_id);
       modal.find('.modal-body #org_name_text').text(org_name);
@@ -192,6 +207,11 @@
       modal.find('.modal-body #org_email_text').text(org_email);
       modal.find('.modal-body #org_website_text').text(org_website);
       modal.find('.modal-body #org_logo_image').html("<img height='200px' src='{{ url('/') }}/images/logos/"+org_logo+"'>");
+      modal.find('.modal-body #org_id_text').text(ppl_id);
+      modal.find('.modal-body #ppl_name_text').text(ppl_name);
+      modal.find('.modal-body #ppl_phone_text').text(ppl_phone);
+      modal.find('.modal-body #ppl_email_text').text(ppl_email);
+      modal.find('.modal-body #ppl_logo_image').html("<img height='200px' src='{{ url('/') }}/images/avatars/"+ppl_avatar+"'>");
 })
 
 

@@ -6,10 +6,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Http\Request;
-use \App\Organization;
+use \App\Person;
 use Gate;
 
-class OrganizationController extends Controller
+class PersonController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,19 +18,23 @@ class OrganizationController extends Controller
      */
     public function index(Request $request)
     {
-        if($request['search']!=""){
-            $organizations = Organization::when($request->search, function ($query) use ($request) {
+        /* if($request['search']!=""){
+            $people = Organization::when($request->search, function ($query) use ($request) {
                 $query->where('email', 'like', "%{$request->search}%")
                     ->orWhere('phone', 'like', "%{$request->search}%")
                     ->orWhere('name', 'like', "%{$request->search}%")
                     ->orWhere('website', 'like', "%{$request->search}%");
             })->paginate(5);
-            $organizations->appends($request->only('search'));
-        }else{
-            $organizations = DB::table('organizations')->where('user_id', Auth::id())->paginate(5);
+            $people->appends($request->only('search'));
+        }else{ */
+            $organizations = DB::table('organizations')
+            ->where('user_id', Auth::id())
+            ->where('id', $request->organization)->get();
+
+            $people = DB::table('people')->where('organization_id',$request->organization)->paginate(5);
             
-        }
-        return view('organization.index',['organizations'=>$organizations]);
+        //}
+        return view('person.index',['people'=>$people,'organizations'=>$organizations]);
     }
 
     /**
@@ -51,23 +55,21 @@ class OrganizationController extends Controller
      */
     public function store(Request $request)
     {
-
-        if($request->hasfile('logo')) 
+        if($request->hasfile('avatar')) 
         { 
-            $file = $request->file('logo');
+            $file = $request->file('avatar');
             $extension = $file->getClientOriginalExtension(); // getting image extension
             $filename =time().'.'.$extension;
-            $file->move('images/logos/', $filename);
+            $file->move('images/avatars/', $filename);
         }
         
-        Organization::create([
+        Person::create([
 
         'name' => $request->name,
         'phone' => $request->phone,
         'email' => $request->email,
-        'website' => $request->website,
-        'user_id' => Auth::id(),
-        'logo' => $filename
+        'organization_id' => $request->organization_id,
+        'avatar' => $filename
 
         ]);
 
@@ -103,11 +105,11 @@ class OrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $organization = Organization::findOrFail($request->organization_id);
+        $people = Person::findOrFail($request->person_id);
 
-        $organization->update($request->all());
+        $people->update($request->all());
        
         return back();
     }
@@ -120,8 +122,8 @@ class OrganizationController extends Controller
      */
     public function destroy(Request $request)
     {
-        $organization = Organization::findOrFail($request->organization_id);
-        $organization->delete();
+        $people = Person::findOrFail($request->person_id);
+        $people->delete();
 
         return back();
     }
