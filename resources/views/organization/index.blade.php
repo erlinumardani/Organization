@@ -11,7 +11,7 @@
 
 			<div class="box-body">
 
-			<form action="/search" method="get">
+			<form action="/organization" method="get">
 					<div class="row">
 						<div class="col-md-8">
 						</div>

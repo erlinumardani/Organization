@@ -85,6 +85,7 @@
 
 
 <!-- Button trigger modal -->
+<button class="btn btn-warning" onclick="history.back(-1);">Go Back</button>
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
  	Add New
 </button>

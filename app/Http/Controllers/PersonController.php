@@ -18,22 +18,17 @@ class PersonController extends Controller
      */
     public function index(Request $request)
     {
-        /* if($request['search']!=""){
-            $people = Organization::when($request->search, function ($query) use ($request) {
-                $query->where('email', 'like', "%{$request->search}%")
-                    ->orWhere('phone', 'like', "%{$request->search}%")
-                    ->orWhere('name', 'like', "%{$request->search}%")
-                    ->orWhere('website', 'like', "%{$request->search}%");
-            })->paginate(5);
-            $people->appends($request->only('search'));
-        }else{ */
-            $organizations = DB::table('organizations')
-            ->where('user_id', Auth::id())
-            ->where('id', $request->organization)->get();
+        
+        $organizations = DB::table('organizations')
+        ->where('user_id', Auth::id())
+        ->where('id', $request->organization)->get();
 
+        if(count($organizations)>=1){
             $people = DB::table('people')->where('organization_id',$request->organization)->paginate(5);
-            
-        //}
+        }else{
+            $people = array();
+        }
+        
         return view('person.index',['people'=>$people,'organizations'=>$organizations]);
     }
 
